@@ -1,6 +1,6 @@
 package main
 
-// https://leetcode-cn.com/problems/continuous-subarray-sum/
+// 523 https://leetcode-cn.com/problems/continuous-subarray-sum/
 // 前缀和 + 哈希表
 func checkSubarraySum(nums []int, k int) bool {
 	m := map[int]int{0: -1}

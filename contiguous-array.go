@@ -2,7 +2,7 @@ package main
 
 // 525 https://leetcode-cn.com/problems/contiguous-array/submissions/
 // 计算特殊前缀和，是 0 则减 1，是 1 则加 1，hash 记录前缀和数值第一次出现的 index
-// 如果前缀和为 0 则当前 i 即为最长长度，否则当前i减第一次出现的 index 即为最长长度
+// 如果前缀和为 0 则当前 i 即为最长长度，否则当前 i 减第一次出现的 index 即为最长长度
 func findMaxLength(nums []int) int {
 	m := map[int]int{}
 	sum := 0

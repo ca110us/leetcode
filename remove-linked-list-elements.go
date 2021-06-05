@@ -1,0 +1,39 @@
+package main
+
+// 203 https://leetcode-cn.com/problems/remove-linked-list-elements/
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+func removeElements(head *ListNode, val int) *ListNode {
+	var h *ListNode
+	var pre *ListNode
+
+	if head == nil {
+		return head
+	}
+
+	now := head
+	for {
+		if now.Val != val {
+			if h == nil {
+				h = now
+			}
+
+			pre = now
+		} else {
+			if pre != nil {
+				pre.Next = now.Next
+			}
+		}
+
+		if now.Next != nil {
+			now = now.Next
+		} else {
+			break
+		}
+	}
+
+	return h
+}

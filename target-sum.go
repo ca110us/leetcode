@@ -1,6 +1,7 @@
 package main
 
 // 494 https://leetcode-cn.com/problems/target-sum/
+// 背包问题，算出列表中所有和为 “-” 运算元素和一半的组合数
 func findTargetSumWays(nums []int, target int) int {
 	sum := 0
 	for _, num := range nums {

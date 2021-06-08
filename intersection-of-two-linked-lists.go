@@ -1,7 +1,7 @@
 package main
 
 // 160 https://leetcode-cn.com/problems/intersection-of-two-linked-lists/
-
+// 头尾相连，遍历完的时候要么指到一起，要么都是 nil
 /**
  * Definition for singly-linked list.
  * type ListNode struct {

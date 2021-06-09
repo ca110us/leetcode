@@ -3,7 +3,7 @@ package main
 // 879 https://leetcode-cn.com/problems/profitable-schemes/
 // 背包问题，需要注意的是，这里定义的状态是工作利润至少为 k 的盈利计划总数
 // dp[i][0] = 1 表示什么任务都没有的时候，利润至少为 0 的情况只有一种，就是什么任务都没有，无论人数是多少
-// 倒序遍历时候有可能为负数，因为利润一定是非负数，至少为 -1 和至少为 0 没区别，所以取 0 时候的方案数一样
+// 倒序遍历时候有可能为负数，因为利润一定是非负数，所以取 0 时候的方案数一样
 func profitableSchemes(n int, minProfit int, group []int, profit []int) int {
 	dp := make([][]int, n+1)
 

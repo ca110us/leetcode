@@ -1,7 +1,7 @@
 package main
 
 // 1449 https://leetcode-cn.com/problems/form-largest-integer-with-digits-that-add-up-to-target/
-// 完全背包问题，加上状态转移的回溯，可以用 0 和 -1 来区分数据是否是合法的，在 +1 之前进行判断
+// 完全背包问题，加上状态转移的回溯，可以用 0 和 -1 来区分数据是否是合法的
 func largestNumber(cost []int, target int) string {
 	dp := make([]int, target+1)
 
@@ -13,7 +13,7 @@ func largestNumber(cost []int, target int) string {
 
 	for _, c := range cost {
 		for j := c; j <= target; j++ {
-			// 如果数据合法，则 +1
+			// 判断数据合法
 			if dp[j-c] >= 0 {
 				dp[j] = max(dp[j], dp[j-c]+1)
 			}

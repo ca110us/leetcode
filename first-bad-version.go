@@ -11,9 +11,9 @@ func firstBadVersion(n int) int {
 	for start <= end {
 		mid := (start + end) / 2
 		if isBadVersion(mid) {
-			start = mid + 1
-		} else {
 			end = mid - 1
+		} else {
+			start = mid + 1
 		}
 	}
 

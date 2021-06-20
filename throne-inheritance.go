@@ -1,5 +1,7 @@
 package main
 
+// 1600 https://leetcode-cn.com/problems/throne-inheritance/
+// 树 先序遍历
 type ThroneInheritance struct {
 	// king
 	king string

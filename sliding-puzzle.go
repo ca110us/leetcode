@@ -36,7 +36,6 @@ func slidingPuzzle(board [][]int) int {
 		{2, 4},
 	}
 
-	t := -1
 	for len(q) != 0 {
 		node := q[0]
 		q = q[1:]
@@ -47,21 +46,19 @@ func slidingPuzzle(board [][]int) int {
 		}
 
 		zeroIndex := strings.Index(node, "0")
-		for i := 0; i < len(judge[zeroIndex]); i++ {
-			for _, i := range judge[zeroIndex] {
-				p := []rune(node)
-				p[zeroIndex], p[i] = p[i], p[zeroIndex]
+		for _, i := range judge[zeroIndex] {
+			p := []rune(node)
+			p[zeroIndex], p[i] = p[i], p[zeroIndex]
 
-				pnode := string(p)
-				// 已经遍历到过了
-				if _, ok := visited[pnode]; ok {
-					continue
-				}
-
-				visited[pnode] = step + 1
-				q = append(q, pnode)
+			pnode := string(p)
+			// 已经遍历到过了
+			if _, ok := visited[pnode]; ok {
+				continue
 			}
+
+			visited[pnode] = step + 1
+			q = append(q, pnode)
 		}
 	}
-	return t
+	return -1
 }

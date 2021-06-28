@@ -40,7 +40,7 @@ func numBusesToDestination(routes [][]int, source int, target int) int {
 				return step
 			}
 
-			// 将新路线加入队列
+			// 将该站点能到的新路线都加入队列
 			if rs, ok := s2r[s]; ok {
 				for _, r := range rs {
 					if _, ok := countMap[r]; !ok {

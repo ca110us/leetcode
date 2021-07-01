@@ -4,15 +4,10 @@ package main
 // DFS 每一次探索到 k 层就结束（要求 k 层刚好为 n-1）
 func numWays(n int, relation [][]int, k int) int {
 	m := make(map[int][]int)
-	q := []int{}
 
 	for _, v := range relation {
 		from := v[0]
 		to := v[1]
-
-		if from == 0 {
-			q = append(q, to)
-		}
 
 		if _, ok := m[from]; !ok {
 			m[from] = []int{to}

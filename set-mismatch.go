@@ -1,7 +1,7 @@
 package main
 
 // 645 https://leetcode-cn.com/problems/set-mismatch/
-// 用哈希表找到重复值后，就不用维护哈希表了，然后计算出错误和，与正确和计算出丢失值
+// 计算出错误总和，然后通过重复值、错误总和、正确总和计算出丢失值
 func findErrorNums(nums []int) []int {
 	ln := len(nums)
 	m := make([]int, ln+1)

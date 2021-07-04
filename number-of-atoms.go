@@ -11,71 +11,54 @@ func countOfAtoms(formula string) string {
 	numStack := []int{}
 
 	str := ""
+	numStr := ""
 	for i := 0; i < len(formula); i++ {
 		s := formula[i]
-		// 数字
-		num := 1
-		if int(s) >= 49 && int(s) <= 57 {
-			fmt.Println(string(s), num, str, "jjjjj")
-			if str != "" {
-				strStack = append(strStack, str)
-				str = ""
+		if int(s) >= 48 && int(s) <= 57 {
+			numStr += string(s)
+		} else {
+			if string(s) != ")" {
+				str += string(s)
 			}
-			num, _ = strconv.Atoi(string(s))
-			numStack = append(numStack, num)
 		}
 
-		// 大写字母
-		if int(s) >= 65 && int(s) <= 90 {
-			if i == len(formula)-1 {
-				str = string(s)
-				strStack = append(strStack, str)
-				numStack = append(numStack, num)
-				continue
-			}
-			fmt.Println(string(s), num, str, "jjj000jj")
-			if str != "" {
-				strStack = append(strStack, str)
-				str = ""
-				numStack = append(numStack, num)
-			}
-			str = string(s)
-		}
+		// // 大写字母
+		// if int(s) >= 65 && int(s) <= 90 {
+		// 	str += string(s)
+		// }
 
-		// 小写字母
-		if int(s) >= 97 && int(s) <= 122 {
-			fmt.Println(str, string(s), "jjj99999")
-			str = str + string(s)
-		}
+		// // 小写字母
+		// if int(s) >= 97 && int(s) <= 122 {
+		// 	str += string(s)
+		// }
 
-		// （
-		if string(s) == "(" {
-			if str != "" {
-				strStack = append(strStack, str)
-				str = ""
-				numStack = append(numStack, num)
-			}
-			strStack = append(strStack, "(")
-		}
+		// // （
+		// if string(s) == "(" {
+		// 	str += string(s)
+		// }
 
 		// ）
 		if string(s) == ")" {
-			if str != "" {
-				strStack = append(strStack, str)
-				str = ""
-				numStack = append(numStack, num)
-			}
-
 			fmt.Println(strStack, numStack, "jsjdjdjj")
 			ss := []string{}
 			ns := []int{}
 
 			base := 1
 			// 下一个字符是数字
-			if int(formula[i+1]) >= 49 && int(formula[i+1]) <= 57 {
-				base, _ = strconv.Atoi(string(formula[i+1]))
+			if i+1 <= len(formula)-1 && int(formula[i+1]) >= 48 && int(formula[i+1]) <= 57 {
+				j := 1
+				numStr := ""
+				for {
+					if i+j <= len(formula)-1 && int(formula[i+j]) >= 48 && int(formula[i+j]) <= 57 {
+						numStr += string(formula[i+j])
+						j++
+					} else {
+						break
+					}
+				}
+				base, _ = strconv.Atoi(numStr)
 				// 跳过下一个字符
-				i = i + 1
+				i = i + (j - 1)
 			}
 
 			for {
@@ -111,8 +94,27 @@ func countOfAtoms(formula string) string {
 			}
 
 		}
+
+		if i == len(formula)-1 || !(int(formula[i+1]) >= 97 && int(formula[i+1]) <= 122) && !(int(formula[i+1]) >= 48 && int(formula[i+1]) <= 57) {
+			if str == "" {
+				continue
+			}
+			fmt.Println(str, numStr, "jskjdkjskdjfksjdkf000")
+			strStack = append(strStack, str)
+			num, _ := strconv.Atoi(numStr)
+			if num == 0 {
+				num = 1
+			}
+			if string(s) != "(" {
+				numStack = append(numStack, num)
+			}
+
+			str = ""
+			numStr = ""
+		}
 	}
 
+	fmt.Println(strStack, numStack)
 	m := map[string]int{}
 	atoms := []string{}
 	for i := 0; i < len(strStack); i++ {

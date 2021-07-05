@@ -1,55 +1,74 @@
 package main
 
 import (
-	"fmt"
 	"sort"
 	"strconv"
 )
+
+// 726 https://leetcode-cn.com/problems/number-of-atoms/
+// 这题可以参照 Dijkstra 的双栈算术表达式求值算法（《算法-第四版》 80 页），其实不难，但是很烦
+func isNum(s byte) bool         { return s >= '0' && s <= '9' }
+func isLowerLatter(s byte) bool { return s >= 'a' && s <= 'z' }
+func isUpperLatter(s byte) bool { return s >= 'A' && s <= 'Z' }
 
 func countOfAtoms(formula string) string {
 	strStack := []string{}
 	numStack := []int{}
 
-	str := ""
-	numStr := ""
+	var pre byte
 	for i := 0; i < len(formula); i++ {
 		s := formula[i]
-		if int(s) >= 48 && int(s) <= 57 {
-			numStr += string(s)
-		} else {
-			if string(s) != ")" {
-				str += string(s)
+		haveNext := i+1 < len(formula)
+
+		// 大写字母处理
+		if isUpperLatter(s) {
+			strStack = append(strStack, string(s))
+			if (haveNext && !isNum(formula[i+1]) && !isLowerLatter(formula[i+1])) || !haveNext {
+				numStack = append(numStack, 1)
 			}
+			pre = s
+			continue
 		}
 
-		// // 大写字母
-		// if int(s) >= 65 && int(s) <= 90 {
-		// 	str += string(s)
-		// }
+		// 小写字母处理
+		if isLowerLatter(s) {
+			strStack[len(strStack)-1] = strStack[len(strStack)-1] + string(s)
+			if (haveNext && !isNum(formula[i+1]) && !isLowerLatter(formula[i+1])) || !haveNext {
+				numStack = append(numStack, 1)
+			}
+			pre = s
+			continue
+		}
 
-		// // 小写字母
-		// if int(s) >= 97 && int(s) <= 122 {
-		// 	str += string(s)
-		// }
+		// 数字处理
+		if isNum(s) {
+			if isNum(pre) {
+				numStr := strconv.Itoa(numStack[len(numStack)-1])
+				numStr += string(s)
 
-		// // （
-		// if string(s) == "(" {
-		// 	str += string(s)
-		// }
+				newNum, _ := strconv.Atoi(numStr)
+				numStack[len(numStack)-1] = newNum
+			} else {
+				num, _ := strconv.Atoi(string(s))
+				numStack = append(numStack, num)
+			}
+			pre = s
+			continue
+		}
 
-		// ）
+		// 右括号处理 取出 strStack 中的所有原子，直到遇到 "(" ，从 numStack 中取出相同数量元素分别和 ")" 后面数字相乘
+		// 再将新的 str 和 num 压回 strStack 和 numStack
 		if string(s) == ")" {
-			fmt.Println(strStack, numStack, "jsjdjdjj")
 			ss := []string{}
 			ns := []int{}
 
 			base := 1
-			// 下一个字符是数字
-			if i+1 <= len(formula)-1 && int(formula[i+1]) >= 48 && int(formula[i+1]) <= 57 {
+			// 取出右括号后所有的数字
+			if i+1 < len(formula) && isNum(formula[i+1]) {
 				j := 1
 				numStr := ""
-				for {
-					if i+j <= len(formula)-1 && int(formula[i+j]) >= 48 && int(formula[i+j]) <= 57 {
+				for i+1 < len(formula) && isNum(formula[i+1]) {
+					if i+j <= len(formula)-1 && isNum(formula[i+j]) {
 						numStr += string(formula[i+j])
 						j++
 					} else {
@@ -57,14 +76,14 @@ func countOfAtoms(formula string) string {
 					}
 				}
 				base, _ = strconv.Atoi(numStr)
-				// 跳过下一个字符
+				// 跳过 j-1 个字符
 				i = i + (j - 1)
 			}
 
 			for {
-				// 直到取到 "("
 				str := strStack[len(strStack)-1]
 				strStack = strStack[:len(strStack)-1]
+				// 直到取到 "("
 				if str == "(" {
 					break
 				}
@@ -75,46 +94,29 @@ func countOfAtoms(formula string) string {
 				ns = append(ns, num)
 			}
 
-			fmt.Println(ns, ss, base, strStack, numStack, len(ns), "jdjdjdjdjjdijijie2222")
 			ln := len(ns)
 			for i := 0; i < ln; i++ {
-				fmt.Println("kkkkkkk-------")
-				// 归还新数字
+				// 压入新数字
 				num := ns[len(ns)-1]
 				ns = ns[:len(ns)-1]
 
 				newNum := num * base
 				numStack = append(numStack, newNum)
 
-				// 归还字符串
+				// 压入字符
 				str := ss[len(ss)-1]
 				ss = ss[:len(ss)-1]
 
 				strStack = append(strStack, str)
 			}
-
+			pre = s
+			continue
 		}
 
-		if i == len(formula)-1 || !(int(formula[i+1]) >= 97 && int(formula[i+1]) <= 122) && !(int(formula[i+1]) >= 48 && int(formula[i+1]) <= 57) {
-			if str == "" {
-				continue
-			}
-			fmt.Println(str, numStr, "jskjdkjskdjfksjdkf000")
-			strStack = append(strStack, str)
-			num, _ := strconv.Atoi(numStr)
-			if num == 0 {
-				num = 1
-			}
-			if string(s) != "(" {
-				numStack = append(numStack, num)
-			}
-
-			str = ""
-			numStr = ""
-		}
+		strStack = append(strStack, string(s))
+		pre = s
 	}
 
-	fmt.Println(strStack, numStack)
 	m := map[string]int{}
 	atoms := []string{}
 	for i := 0; i < len(strStack); i++ {
@@ -123,7 +125,7 @@ func countOfAtoms(formula string) string {
 	}
 
 	sort.Strings(atoms)
-	fmt.Println(m, atoms, "hhhuuuuuu")
+
 	ans := ""
 	for _, atom := range atoms {
 		if m[atom] == 1 {
@@ -133,10 +135,10 @@ func countOfAtoms(formula string) string {
 		ans += atom + strconv.Itoa(m[atom])
 	}
 
-	fmt.Println(ans)
 	return ans
 }
 
+// 去重
 func add(s []string, e string) []string {
 	for _, v := range s {
 		if v == e {
@@ -146,8 +148,4 @@ func add(s []string, e string) []string {
 
 	s = append(s, e)
 	return s
-}
-
-func main() {
-	countOfAtoms("Be32")
 }

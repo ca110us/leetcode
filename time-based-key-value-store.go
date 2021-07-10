@@ -21,10 +21,6 @@ func Constructor() TimeMap {
 }
 
 func (this *TimeMap) Set(key string, value string, timestamp int) {
-	if _, ok := this.m[key]; !ok {
-		this.m[key] = make([]item, 0)
-	}
-
 	this.m[key] = append(this.m[key], item{
 		value:     value,
 		timestamp: timestamp,

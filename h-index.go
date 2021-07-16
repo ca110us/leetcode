@@ -15,7 +15,7 @@ func hIndex(citations []int) int {
 	return ans
 }
 
-// 275 https://leetcode-cn.com/problems/h-index/
+// 275 https://leetcode-cn.com/problems/h-index-ii/
 // 第二种方法 二分查找
 func hIndex2(citations []int) int {
 	left, right := 0, len(citations)-1

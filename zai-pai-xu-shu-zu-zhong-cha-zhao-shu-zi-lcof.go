@@ -1,5 +1,7 @@
 package main
 
+import "sort"
+
 // offer53 https://leetcode-cn.com/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/
 // 不讲武德
 func search(nums []int, target int) (sum int) {
@@ -10,4 +12,22 @@ func search(nums []int, target int) (sum int) {
 	}
 
 	return sum
+}
+
+// 二分法
+func search(nums []int, target int) (ans int) {
+	sort.Ints(nums)
+	// 先定位到位置
+	idx := sort.Search(len(nums)-1, func(x int) bool { return nums[x] >= target })
+	for idx < len(nums) {
+		if nums[idx] == target {
+			ans++
+			idx++
+		} else {
+			break
+		}
+
+	}
+
+	return ans
 }

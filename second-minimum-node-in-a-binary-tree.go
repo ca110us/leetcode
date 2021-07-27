@@ -7,7 +7,7 @@ type TreeNode struct {
 }
 
 // 671 https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree
-// 深度优先搜索 dfs
+// 深度优先搜索 dfs 搜索结点值和根结点值一样的子树
 func findSecondMinimumValue(root *TreeNode) int {
 	if root.Left == nil {
 		return -1

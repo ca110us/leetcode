@@ -11,15 +11,31 @@ func kWeakestRows(mat [][]int, k int) []int {
 	h := hp{}
 	for i, row := range mat {
 		v := sort.Search(len(row), func(j int) bool { return row[j] == 0 })
-		h = append(h, pair{v, i})
+		//h = append(h, pair{v, i})
+		heap.Push(&h, pair{v, i})
 	}
-	heap.Init(&h)
+	//heap.Init(&h)
 	ans := make([]int, k)
 	for i := range ans {
 		ans[i] = heap.Pop(&h).(pair).index
 	}
 	return ans
 }
+
+// 也可以这样
+// func kWeakestRows(mat [][]int, k int) []int {
+// 	h := hp{}
+// 	for i, row := range mat {
+// 		v := sort.Search(len(row), func(j int) bool { return row[j] == 0 })
+// 		heap.Push(&h,pair{v,i})
+// 	}
+
+// 	ans := make([]int, k)
+// 	for i := range ans {
+// 		ans[i] = heap.Pop(&h).(pair).index
+// 	}
+// 	return ans
+// }
 
 type pair struct{ val, index int }
 type hp []pair

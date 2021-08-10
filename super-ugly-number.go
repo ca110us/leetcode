@@ -72,6 +72,8 @@ func nthSuperUglyNumber2(n int, primes []int) int {
 			min = small(min, nums[j])
 		}
 		f[i] = min
+
+		// 找出是基于那个位置的数相乘的 基于递增原则 下一次用该数相乘的时候 前面的都不用看了
 		for j := range nums {
 			if f[i] == nums[j] {
 				p[j]++

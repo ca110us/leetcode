@@ -3,7 +3,7 @@ package main
 // 576 https://leetcode-cn.com/problems/out-of-boundary-paths/
 // dfs
 func findPaths(m int, n int, maxMove int, startRow int, startColumn int) int {
-	// dp[i][j][k] 表示球移动 k 次之后位于坐标 (i,j) 的路径数量
+	// dp[i][j][k] 表示位于坐标 (i,j) 球还可以移动 k 次的合法路径数量
 	dp := make([][][]int, m)
 	for i := range dp {
 		dp[i] = make([][]int, n)

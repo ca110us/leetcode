@@ -7,23 +7,21 @@ import (
 // 443 https://leetcode-cn.com/problems/string-compression/
 // 双指针
 func compress(chars []byte) int {
-	l, r, idx := 0, 0, 0
-	for r <= len(chars)-1 {
-		now := chars[l]
-		for chars[r] == now {
+	l, r, idx, ln := 0, 0, 0, len(chars)
+	for r <= ln-1 {
+		for chars[r] == chars[l] {
 			r++
-			if r >= len(chars) {
+			if r >= ln {
 				break
 			}
 		}
 
-		weight := r - l
-		if weight == 1 {
-			chars[idx] = now
+		if r-l == 1 {
+			chars[idx] = chars[l]
 			idx++
 		} else {
-			numStr := strconv.Itoa(weight)
-			chars[idx] = now
+			numStr := strconv.Itoa(r - l)
+			chars[idx] = chars[l]
 			idx++
 			for _, v := range numStr {
 				chars[idx] = byte(v)

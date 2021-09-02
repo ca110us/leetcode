@@ -1,6 +1,6 @@
 package main
 
-// offer42 https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/
+// offer - 42 https://leetcode-cn.com/problems/lian-xu-zi-shu-zu-de-zui-da-he-lcof/
 // 动态规划
 func maxSubArray(nums []int) int {
 	ans := nums[0]
